@@ -264,7 +264,7 @@ def parse_args(input_args=None):
         "--save_sample_prompts_list",
         type=str,
         default=None,
-        help"Path to json containing multiple prompts to sample images during the training"
+        help="Path to json containing multiple prompts to sample images during the training"
     )
 
     if input_args is not None:
@@ -469,7 +469,7 @@ def main(args):
 
     if args.save_sample_prompts_list is None:
         if args.save_sample_prompt is not None:
-            args.save_sample_prompts_list = [save_sample_prompt]
+            args.save_sample_prompts_list = [args.save_sample_prompt]
     else:
         with open(args.save_sample_prompts_list, "r") as f:
             args.save_sample_prompts_list = json.load(f)
@@ -882,4 +882,4 @@ def main(args):
 if __name__ == "__main__":
     args = parse_args()
     print(args.save_sample_prompt)
-    #main(args)
+    main(args)
