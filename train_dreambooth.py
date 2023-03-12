@@ -765,7 +765,7 @@ def main(args):
                     for prompt in args.save_sample_prompts_list:
                         for i in tqdm(range(args.n_save_sample), desc="Generating samples"):
                             images = pipeline(
-                                args.prompt,
+                                prompt,
                                 negative_prompt=args.save_sample_negative_prompt,
                                 guidance_scale=args.save_guidance_scale,
                                 num_inference_steps=args.save_infer_steps,
