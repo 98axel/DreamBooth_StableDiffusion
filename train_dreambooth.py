@@ -751,9 +751,10 @@ def main(args):
             if is_xformers_available():
                 pipeline.enable_xformers_memory_efficient_attention()
             save_dir = os.path.join(args.output_dir, f"{step}")
-            pipeline.save_pretrained(save_dir)
-            with open(os.path.join(save_dir, "args.json"), "w") as f:
-                json.dump(args.__dict__, f, indent=2)
+            if global_step >= args.save_min_steps:
+                pipeline.save_pretrained(save_dir)
+                with open(os.path.join(save_dir, "args.json"), "w") as f:
+                    json.dump(args.__dict__, f, indent=2)
 
             if args.save_sample_prompts_list is not None:
                 pipeline = pipeline.to(accelerator.device)
@@ -863,7 +864,7 @@ def main(args):
                 progress_bar.set_postfix(**logs)
                 accelerator.log(logs, step=global_step)
 
-            if global_step > 0 and not global_step % args.save_interval and global_step >= args.save_min_steps:
+            if global_step > 0 and not global_step % args.save_interval:
                 save_weights(global_step)
 
             progress_bar.update(1)
